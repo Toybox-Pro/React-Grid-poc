@@ -33,7 +33,7 @@ class App extends Component {
       <React.Fragment>
         <header style={{ height: '75px', background: '#fff', boxShadow: '0 3px 6px rgba(0,0,0, 0.5)' }} className="d-flex justify-content-between">
           <div className="d-flex align-items-center">
-            <img src={Logo} alt="logo" style={{ height: '50px' }} />
+            <img src={Logo} alt="logo" style={{ height: '50px', width: '50px' }} />
             <span>React Grid POC</span>
           </div>
           <ul className="d-flex nav align-items-center">

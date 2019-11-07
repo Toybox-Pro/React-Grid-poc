@@ -3,6 +3,7 @@ import './Cases.component.scss';
 import { Link } from 'react-router-dom';
 import { AgGridReact } from 'ag-grid-react';
 import Back from './../../back.svg';
+import fetch from 'isomorphic-fetch';
 
 export class Cases extends Component {
     constructor(props) {

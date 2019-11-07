@@ -38,7 +38,7 @@ class Grid extends Component {
                     }
                 }
             }, {
-                headerName: "Departure Date", field: "depDateTime", editable: true, filter: "agDateColumnFilter", width: 200, sortable: true, filterParams: {
+                headerName: "Departure Date", field: "depDateTime", editable: true, cellEditor: "datePicker", filter: "agDateColumnFilter", width: 200, sortable: true, filterParams: {
                     comparator: function (filterLocalDateAtMidnight, cellValue) {
                         var cellDate = new Date(cellValue)
                         if (moment(cellDate).isSame(filterLocalDateAtMidnight)) {
@@ -120,7 +120,7 @@ class Grid extends Component {
     }
 
     goToCases(event) {
-        if(event.target.id !== 'parentColumn' && event.target.classList.contains('highlight-id')) {
+        if (event.target.id !== 'parentColumn' && event.target.classList.contains('highlight-id')) {
             this.props.history.push(`/cases/${event.target.innerHTML}`)
         }
     }
@@ -149,11 +149,9 @@ class Grid extends Component {
 function getDatePicker() {
     function Datepicker() { }
     Datepicker.prototype.init = function (params) {
-        console.log(params)
         this.eInput = document.createElement("input");
         this.eInput.value = params.value;
         $(this.eInput).datepicker();
-        console.log(this.eInput)
     };
     Datepicker.prototype.getGui = function () {
         return this.eInput;
