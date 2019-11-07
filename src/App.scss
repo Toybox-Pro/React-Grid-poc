@@ -1,0 +1,58 @@
+@import "../node_modules/ag-grid-community/src/styles/ag-grid.scss";
+@import "../node_modules/ag-grid-community/src/styles/ag-theme-balham/sass/ag-theme-balham.scss";
+
+// $odd-row-background-color: #CFD8DC;
+.custom-date-filter a {
+  position: absolute;
+  right: 20px;
+  color: rgba(0, 0, 0, 0.54);
+  cursor: pointer;
+}
+.custom-date-filter:after {
+  position: absolute;
+  content: "\f073";
+  display: block;
+  font-weight: 400;
+  font-family: "Font Awesome 5 Free";
+  right: 5px;
+  pointer-events: none;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+body {
+  background: #f6f6f8;
+  font-family: "Open Sans";
+}
+span.ag-header-cell-text {
+  font-size: 16px;
+  color: #000;
+}
+.ag-header-row {
+  height: 40px !important;
+  &:nth-child(2) {
+    top: 40px !important;
+  }
+}
+
+.ag-cell {
+  color: #444054;
+}
+
+.search:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.ag-theme-balham .ag-header-cell::after, .ag-theme-balham .ag-header-group-cell::after {
+  top: 3px;
+}
+input.form-control {
+  border: none;
+  border-bottom: 1px solid #444054;
+  border-radius: 0;
+  &:focus {
+    box-shadow: none;
+    outline: none;
+    border-bottom: 1px solid #8c6f48 !important;
+  }
+}
