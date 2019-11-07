@@ -1,32 +1,39 @@
 import React, { Component } from 'react';
 import './App.scss';
-import { Grid } from './components/Grid.component';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Home } from './components/Home Component/Home.component';
+import { Cases } from './components/Cases Component/Cases.component';
 import Logo from './grid-icon.svg';
+import GridContext from './context';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+
+  constructor() {
+    super();
     this.state = {
-      submitted: false
+      gridState: false,
+      city: '',
+      guestId: '',
+      accCode: ''
     }
+    this.changeGridState = this.changeGridState.bind(this);
   }
 
-  handleChange(e) {
-    console.log(e.target.value)
-  }
-
-  handleClick(e) {
-    e.preventDefault();
+  changeGridState(city, guestId, accCode) {
     this.setState({
-      submitted: true
+      gridState: true,
+      city,
+      guestId,
+      accCode
     })
   }
   render() {
+
     return (
       <React.Fragment>
-        <header style={{ height: '75px', background: '#fff',boxShadow: '0 3px 6px rgba(0,0,0, 0.5)' }} className="d-flex justify-content-between">
+        <header style={{ height: '75px', background: '#fff', boxShadow: '0 3px 6px rgba(0,0,0, 0.5)' }} className="d-flex justify-content-between">
           <div className="d-flex align-items-center">
-            <img src={Logo} style={{ height: '50px' }} />
+            <img src={Logo} alt="logo" style={{ height: '50px' }} />
             <span>React Grid POC</span>
           </div>
           <ul className="d-flex nav align-items-center">
@@ -36,40 +43,19 @@ class App extends Component {
             <li className="nav-item px-4">Hotels</li>
           </ul>
         </header>
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <div className="card my-5" style={{ border: 'none', boxShadow: '0 6px 12px rgba(0,0,0, 0.5)' }}>
-                <div className="card-title p-3">
-                  <h4>Search Reservations</h4>
-                </div>
-                <div className="card-body">
-                  <form className="form-row">
-                    <div className="form-group col-3 mx-3">
-                      <label style={{color: '#444054'}} htmlFor="city" >City</label>
-                      <input autoComplete="off" id="city" className="form-control" onChange={($event) => this.handleChange($event)} />
-                    </div>
-                    <div className="form-group col-3 mx-3">
-                      <label style={{color: '#444054'}} htmlFor="guestId">Guest Id</label>
-                      <input autoComplete="off" id="guestId" className="form-control" onChange={($event) => this.handleChange($event)} />
-                    </div>
-                    <div className="form-group col-3 ml-3">
-                      <label style={{color: '#444054'}} htmlFor="acc">Accomodation Code</label>
-                      <input autoComplete="off" id="acc" className="form-control" onChange={($event) => this.handleChange($event)} />
-                    </div>
-                    <div className="form-group col-2 d-flex align-items-end justify-content-center">
-                      <button className="btn col-10 search" style={{background: '#ff9662', color: '#fff', fontWeight: 'bold', borderRadius: 0}} onClick={($event) => this.handleClick($event)}>Search</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-          {
-            (this.state.submitted) ? (<Grid></Grid>) : ''
-          }
-        </div>
-      </React.Fragment >
+        <GridContext.Provider value={{
+          gridState: this.state.gridState, changeGridState: this.changeGridState, city: this.state.city, guestId: this.state.guestId, accCode: this.state.accCode
+        }}>
+          <Router>
+            <Switch>
+              <Route path="/" exact={true} component={Home}>
+              </Route>
+              <Route path="/cases/:id" component={Cases}>
+              </Route>
+            </Switch>
+          </Router>
+        </GridContext.Provider>
+      </React.Fragment>
     );
   }
 }

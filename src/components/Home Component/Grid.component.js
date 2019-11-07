@@ -4,17 +4,19 @@ import { AgGridReact } from 'ag-grid-react';
 import CustomDateComponent from './customDateComponent'
 import * as moment from 'moment';
 import fetch from 'isomorphic-fetch';
+import { withRouter } from 'react-router'
 
 const $ = window.$;
 
-export class Grid extends Component {
+class Grid extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            clicked: false,
             columnDefs: [{
-                headerName: "Id", field: "guestId", editable: true, sortable: true, filter: true,
-                width: 120
-            }, 
+                headerName: "Id", field: "guestId", sortable: true, filter: true,
+                width: 120, cellClass: 'highlight-id'
+            },
             {
                 headerName: "City State", field: "cityState", editable: true, sortable: true, filter: true,
                 width: 150
@@ -55,31 +57,31 @@ export class Grid extends Component {
                 headerName: "Hot Number", field: "hotNum", editable: true, sortable: true, filter: true, width: 150
             },
             {
-                headerName: "Accomodation Code", field: "accomCode", editable: true,  filter: true
+                headerName: "Accomodation Code", field: "accomCode", editable: true, filter: true
             },
             {
-                headerName: "Guest Type", field: "guestType", editable: true,  filter: true, width: 140
+                headerName: "Guest Type", field: "guestType", editable: true, filter: true, width: 140
             },
             {
-                headerName: "Name", field: "name", editable: true,  filter: true, width: 175
-            },   
+                headerName: "Name", field: "name", editable: true, filter: true, width: 175
+            },
             {
-                headerName: "Payment Type", field: "paymentType", editable: true,  filter: true, 
+                headerName: "Payment Type", field: "paymentType", editable: true, filter: true,
             },
             {
                 headerName: "Posting Status", field: "postingStatus", editable: true, filter: true
             },
             {
-                headerName: "Rate Schedule", field: "rateSched", editable: true,  filter: true
+                headerName: "Rate Schedule", field: "rateSched", editable: true, filter: true
             },
             {
-                headerName: "Reservation Status", field: "resRmStatus", editable: true,  filter: true
+                headerName: "Reservation Status", field: "resRmStatus", editable: true, filter: true
             },
             {
-                headerName: "Room Status", field: "roomStatus", editable: true,  filter: true
+                headerName: "Room Status", field: "roomStatus", editable: true, filter: true
             },
             {
-                headerName: "Status", field: "statusText", editable: true,  filter: true
+                headerName: "Status", field: "statusText", editable: true, filter: true
             },
             {
                 headerName: "GTD Status", field: "gtdStatus", editable: true, filter: true
@@ -93,8 +95,8 @@ export class Grid extends Component {
             {
                 headerName: "Profile ID", field: "profileID", editable: true, filter: true
             },
-            
-        ],
+
+            ],
             components: { datePicker: getDatePicker() },
             defaultColDef: { filter: true },
             frameworkComponents: { agDateInput: CustomDateComponent }
@@ -105,6 +107,8 @@ export class Grid extends Component {
         fetch('https://s3.amazonaws.com/cdn.toybox2/Marriott-React-JSON/houselist.json')
             .then(res => res.json())
             .then(rowData => this.setState({ rowData: rowData.guests }))
+        document.getElementsByClassName('ag-center-cols-container')[0].setAttribute('id', 'parentColumn');
+        document.getElementsByClassName('ag-center-cols-container')[0].addEventListener('click', this.goToCases.bind(this), true)
     }
 
     gridOnReady = params => {
@@ -113,6 +117,12 @@ export class Grid extends Component {
 
     isPopup = () => {
         return true;
+    }
+
+    goToCases(event) {
+        if(event.target.id !== 'parentColumn' && event.target.classList.contains('highlight-id')) {
+            this.props.history.push(`/cases/${event.target.innerHTML}`)
+        }
     }
 
     render() {
@@ -161,3 +171,6 @@ function getDatePicker() {
     };
     return Datepicker;
 }
+
+Grid = withRouter(Grid);
+export default Grid;

@@ -1,0 +1,10 @@
+.ag-theme-balham .ag-row-odd {
+  background-color: #f5f5f6;
+}
+.highlight-id {
+  color: blue;
+  cursor: pointer;
+  &:hover {
+    background: rgba(0, 0, 255, 0.1);
+  }
+}

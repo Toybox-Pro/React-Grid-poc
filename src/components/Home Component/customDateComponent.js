@@ -16,7 +16,7 @@ export default class CustomDateComponent extends Component {
         return (
             <div className="ag-input-wrapper custom-date-filter" role="presentation" ref={this.datePicker}>
                 <input type='text' data-input />
-                <a className='input-button' title='clear' data-clear>
+                <a className='input-button' title='clear' href="# " data-clear>
                     <i className='fa fa-times'></i>
                 </a>
             </div>
