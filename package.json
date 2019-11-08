@@ -4,16 +4,15 @@
   "description": "",
   "dependencies": {
     "ag-grid-community": "^21.2.2",
-    "ag-grid-enterprise": "^21.2.2",
     "ag-grid-react": "^21.2.2",
-    "es6-promise": "^4.2.8",
+    "browserslist": "^4.7.2",
     "flatpickr": "^4.6.3",
     "isomorphic-fetch": "^2.2.1",
-    "lwc": "^1.1.1",
     "moment": "^2.24.0",
     "node-sass": "^4.13.0",
     "react": "^16.11.0",
     "react-app-polyfill": "^1.0.4",
+    "react-datepicker": "^2.9.6",
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0"

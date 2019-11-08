@@ -5,14 +5,14 @@ import CustomDateComponent from './customDateComponent'
 import * as moment from 'moment';
 import fetch from 'isomorphic-fetch';
 import { withRouter } from 'react-router'
-
-const $ = window.$;
+import CustomDatePickerComponent from './customDatePickerComponent';
 
 class Grid extends Component {
     constructor(props) {
         super(props);
         this.state = {
             clicked: false,
+            isMinimized: false,
             columnDefs: [{
                 headerName: "Id", field: "guestId", sortable: true, filter: true,
                 width: 120, cellClass: 'highlight-id'
@@ -38,7 +38,7 @@ class Grid extends Component {
                     }
                 }
             }, {
-                headerName: "Departure Date", field: "depDateTime", editable: true, cellEditor: "datePicker", filter: "agDateColumnFilter", width: 200, sortable: true, filterParams: {
+                headerName: "Departure Date", field: "depDateTime", editable: true, filter: "agDateColumnFilter", width: 200, sortable: true, filterParams: {
                     comparator: function (filterLocalDateAtMidnight, cellValue) {
                         var cellDate = new Date(cellValue)
                         if (moment(cellDate).isSame(filterLocalDateAtMidnight)) {
@@ -97,10 +97,14 @@ class Grid extends Component {
             },
 
             ],
-            components: { datePicker: getDatePicker() },
             defaultColDef: { filter: true },
-            frameworkComponents: { agDateInput: CustomDateComponent }
+            frameworkComponents: { agDateInput: CustomDateComponent, datePicker: CustomDatePickerComponent }
         }
+    }
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            isMinimized: nextProps.minimize
+        })
     }
 
     componentDidMount() {
@@ -127,12 +131,7 @@ class Grid extends Component {
 
     render() {
         return (
-            <div
-                className="ag-theme-balham"
-                style={{
-                    height: '500px'
-                }}
-            >
+            <div className={`ag-theme-balham custom-grid ${this.state.isMinimized}`} >
                 <AgGridReact
                     columnDefs={this.state.columnDefs}
                     components={this.state.components}
@@ -144,30 +143,6 @@ class Grid extends Component {
             </div>
         )
     }
-}
-
-function getDatePicker() {
-    function Datepicker() { }
-    Datepicker.prototype.init = function (params) {
-        this.eInput = document.createElement("input");
-        this.eInput.value = params.value;
-        $(this.eInput).datepicker();
-    };
-    Datepicker.prototype.getGui = function () {
-        return this.eInput;
-    };
-    Datepicker.prototype.afterGuiAttached = function () {
-        this.eInput.focus();
-        this.eInput.select();
-    };
-    Datepicker.prototype.getValue = function () {
-        return this.eInput.value;
-    };
-    Datepicker.prototype.destroy = function () { };
-    Datepicker.prototype.isPopup = function () {
-        return false;
-    };
-    return Datepicker;
 }
 
 Grid = withRouter(Grid);

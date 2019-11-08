@@ -1,9 +1,25 @@
 .btn {
-    a {
-        text-decoration: none;
-        color: #fff;
-        &:hover {
-            color: inherit;
-        }
+  a {
+    text-decoration: none;
+    color: #fff;
+    &:hover {
+      color: inherit;
     }
+  }
+}
+.default {
+  height: 220px;
+  transition: height 700ms ease-in-out;
+  overflow: hidden;
+  &.true {
+    height: 68px;
+    .card-title {
+      margin: 0;
+    }
+    .card-body,
+    form,
+    .form-group {
+      display: none;
+    }
+  }
 }

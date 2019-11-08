@@ -43,7 +43,8 @@ span.ag-header-cell-text {
   box-shadow: none;
 }
 
-.ag-theme-balham .ag-header-cell::after, .ag-theme-balham .ag-header-group-cell::after {
+.ag-theme-balham .ag-header-cell::after,
+.ag-theme-balham .ag-header-group-cell::after {
   top: 3px;
 }
 input.form-control {
@@ -54,5 +55,19 @@ input.form-control {
     box-shadow: none;
     outline: none;
     border-bottom: 1px solid #8c6f48 !important;
+  }
+}
+.custom-container {
+  .react-datepicker-popper {
+    position: fixed !important;
+    left: initial !important;
+  }
+}
+
+.custom-grid {
+  height: 500px;
+  transition: height 700ms ease-in-out;
+  &.true {
+    height: 700px;
   }
 }
