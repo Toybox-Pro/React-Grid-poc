@@ -69,6 +69,7 @@ input.form-control {
     position: fixed !important;
     top: initial !important;
     left: initial !important;
+    transform: none;
   }
 }
 
@@ -78,4 +79,25 @@ input.form-control {
   &.true {
     height: 700px;
   }
+}
+
+select.flatpickr-monthDropdown-months {
+  -webkit-appearance: none;
+  background: none;
+  outline: none;
+  pointer-events: none;
+  border: none;
+  /* padding: 10px; */
+  font-size: 17px;
+  height: 30px;
+}
+.flatpickr-current-month .numInputWrapper {
+  font-size: 17px;
+  font-weight: bold;
+  background: none;
+  border: none;
+  pointer-events: none;
+}
+.flatpickr-current-month {
+  padding: 0;
 }

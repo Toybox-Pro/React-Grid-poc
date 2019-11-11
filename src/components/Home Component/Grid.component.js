@@ -117,6 +117,7 @@ class Grid extends Component {
 
     gridOnReady = params => {
         this.gridApi = params.api;
+
     }
 
     isPopup = () => {
@@ -129,6 +130,13 @@ class Grid extends Component {
         }
     }
 
+    handleChange = params => {
+        if ((params.oldValue != params.newValue) && params.oldValue) {
+            //call the api here
+            console.log(params);
+        }
+    }
+
     render() {
         return (
             <div className={`ag-theme-balham custom-grid ${this.state.isMinimized}`} >
@@ -138,7 +146,8 @@ class Grid extends Component {
                     floatingFilter={true}
                     rowData={this.state.rowData}
                     frameworkComponents={this.state.frameworkComponents}
-                    onGridReady={this.gridOnReady}>
+                    onGridReady={this.gridOnReady}
+                    onCellValueChanged={this.handleChange}>
                 </AgGridReact>
             </div>
         )
