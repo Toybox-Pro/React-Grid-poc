@@ -1,37 +1,45 @@
 import React, { Component } from 'react';
-import flatpickr from "flatpickr";
+// import flatpickr from "flatpickr";
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import * as moment from 'moment';
 
 export default class CustomDateComponent extends Component {
 
     constructor(props) {
         super(props);
-        this.datePicker = React.createRef();
+        // this.datePicker = React.createRef();
         this.state = {
             date: null
         }
+        console.log(props)
     }
 
     render() {
         //Inlining styles to make simpler the component
         return (
-            <div className="ag-input-wrapper custom-date-filter" role="presentation" ref={this.datePicker}>
-                <input type='text' data-input />
-                <a className='input-button' title='clear' href="# " data-clear>
-                    <i className='fa fa-times'></i>
-                </a>
+            // <div className="ag-input-wrapper custom-date-filter" role="presentation" ref={this.datePicker}>
+            //     <input type='text' data-input />
+            //     <a className='input-button' title='clear' href="# " data-clear>
+            //         <i className='fa fa-times'></i>
+            //     </a>
+            // </div>
+            <div className="filterDate ag-custom-component-popup">
+                <DatePicker selected= {this.state.date} />
             </div>
         );
     }
 
     componentDidMount() {
-        this.picker = flatpickr(this.datePicker.current, {
-            onChange: this.onDateChanged.bind(this),
-            dateFormat: 'm/d/Y',
-            wrap: true,
-            disableMobile: true
-        });
+        // this.picker = flatpickr(this.datePicker.current, {
+        //     onChange: this.onDateChanged.bind(this),
+        //     dateFormat: 'm/d/Y',
+        //     wrap: true,
+        //     disableMobile: true,
+        // });
 
-        this.picker.calendarContainer.classList.add('ag-custom-component-popup');
+        // this.filterDate.add('ag-custom-component-popup');
+        console.log('did mount')
     }
 
     //*********************************************************************************
@@ -46,9 +54,7 @@ export default class CustomDateComponent extends Component {
 
     setDate(date) {
         //ag-grid will call us here when it needs this component to update the date that it holds.
-        this.setState({ date })
-        this.picker.setDate(date);
-        
+        this.setState({ date })        
     }
 
     //*********************************************************************************

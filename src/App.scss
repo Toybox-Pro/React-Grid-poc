@@ -63,6 +63,14 @@ input.form-control {
     left: initial !important;
   }
 }
+.filterDate {
+  position: relative;
+  .react-datepicker-popper {
+    position: fixed !important;
+    top: initial !important;
+    left: initial !important;
+  }
+}
 
 .custom-grid {
   height: 500px;
