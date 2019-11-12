@@ -17,6 +17,9 @@ export default class CustomDatePickerComponent extends Component {
             date: e
         })
     }
+    componentDidMount() {
+        this.customDatePicker.setOpen(true)
+    }
     
     getValue() {
         return moment(this.state.date).format('MM/DD/YYYY');
@@ -24,7 +27,7 @@ export default class CustomDatePickerComponent extends Component {
     render() {
         return (
             <div className="custom-container">
-                <DatePicker selected={this.state.date} onChange={($event) => this.onChangeHandler($event)} id="date-jumper" ref={(customDatePicker) => {customDatePicker = this.customDatePicker}} />
+                <DatePicker selected={this.state.date} onChange={($event) => this.onChangeHandler($event)} ref={c => this.customDatePicker = c} />
             </div>
         )
     }

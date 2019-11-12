@@ -76,6 +76,7 @@ input.form-control {
 .custom-grid {
   height: 500px;
   transition: height 700ms ease-in-out;
+  margin-bottom: 30px;
   &.true {
     height: 700px;
   }

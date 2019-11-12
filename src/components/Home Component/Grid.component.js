@@ -6,8 +6,10 @@ import * as moment from 'moment';
 import fetch from 'isomorphic-fetch';
 import { withRouter } from 'react-router'
 import CustomDatePickerComponent from './customDatePickerComponent';
+import GridContext from "./../../context";
 
 class Grid extends Component {
+    static contextType = GridContext;
     constructor(props) {
         super(props);
         this.state = {
@@ -38,7 +40,7 @@ class Grid extends Component {
                     }
                 }
             }, {
-                headerName: "Departure Date", field: "depDateTime", editable: true, filter: "agDateColumnFilter", width: 200, sortable: true, filterParams: {
+                headerName: "Departure Date", field: "depDateTime", editable: true, cellEditor: "datePicker", filter: "agDateColumnFilter", width: 200, sortable: true, filterParams: {
                     comparator: function (filterLocalDateAtMidnight, cellValue) {
                         var cellDate = new Date(cellValue)
                         if (moment(cellDate).isSame(filterLocalDateAtMidnight)) {
@@ -105,19 +107,28 @@ class Grid extends Component {
         this.setState({
             isMinimized: nextProps.minimize
         })
+        if (nextProps.clicked > this.props.clicked) {
+            let url;
+            setTimeout(() => {
+                url = this.createUrl();
+                this.getData(url);
+            }, 100);
+        }
     }
 
     componentDidMount() {
-        fetch('https://s3.amazonaws.com/cdn.toybox2/Marriott-React-JSON/houselist.json')
-            .then(res => res.json())
-            .then(rowData => this.setState({ rowData: rowData.guests }))
+        let url;
+        setTimeout(() => {
+            url = this.createUrl();
+            this.getData(url);
+        }, 100);
         document.getElementsByClassName('ag-center-cols-container')[0].setAttribute('id', 'parentColumn');
-        document.getElementsByClassName('ag-center-cols-container')[0].addEventListener('click', this.goToCases.bind(this), true)
+        document.getElementsByClassName('ag-center-cols-container')[0].addEventListener('click', this.goToCases.bind(this), true);
+
     }
 
     gridOnReady = params => {
         this.gridApi = params.api;
-
     }
 
     isPopup = () => {
@@ -131,10 +142,56 @@ class Grid extends Component {
     }
 
     handleChange = params => {
-        if ((params.oldValue != params.newValue) && params.oldValue) {
+        if ((params.oldValue !== params.newValue) && params.oldValue) {
             //call the api here
             console.log(params);
+            this.updateData(params.data);
         }
+    }
+
+    activateDate(e) {
+        e.target.click();
+    }
+
+    getData(url) {
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkR1bW15Iiwicm9sZSI6InBvYyIsImlhdCI6MTUxNjIzOTAyMn0.0pZkdaT9ACzIIq-8CWi6P1d-9PX4CDZ1kS69uAEd4bs',
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+            .then(res => res.json())
+            .then(rowData => {
+                if (Array.isArray(rowData)) {
+                    this.setState({ rowData })
+                } else {
+                    this.setState({ rowData: [] })
+                }
+            })
+            .catch(err => console.log(err));
+    }
+    createUrl() {
+        let url = '';
+        if (!this.context.city && !this.context.guestId && !this.context.accCode && !this.context.departureDate && !this.context.arrivalDate && !this.context.hotNumber) {
+            url = 'http://ec2-54-204-237-108.compute-1.amazonaws.com:8080/dummy';
+        } else {
+            url = `http://ec2-54-204-237-108.compute-1.amazonaws.com:8080/dummy/Search/?dummyId=${this.context.guestId}&cityState=${this.context.city}&Acccode=${this.context.accCode}&HotNumber=${this.context.hotNumber}&DepartDate=${moment(this.context.departureDate).format('MM/DD/YYYY')}&ArrivalDate=${moment(this.context.arrivalDate).format('MM/DD/YYYY')}`
+        }
+        return url;
+    }
+
+    updateData(data) {
+        fetch('http://ec2-54-204-237-108.compute-1.amazonaws.com:8080/dummy', {
+            method: 'PUT',
+            headers: {
+                authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkR1bW15Iiwicm9sZSI6InBvYyIsImlhdCI6MTUxNjIzOTAyMn0.0pZkdaT9ACzIIq-8CWi6P1d-9PX4CDZ1kS69uAEd4bs',
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(data => console.log(data))
     }
 
     render() {
@@ -147,7 +204,8 @@ class Grid extends Component {
                     rowData={this.state.rowData}
                     frameworkComponents={this.state.frameworkComponents}
                     onGridReady={this.gridOnReady}
-                    onCellValueChanged={this.handleChange}>
+                    onCellValueChanged={this.handleChange}
+                    enableCellChangeFlash={true}>
                 </AgGridReact>
             </div>
         )

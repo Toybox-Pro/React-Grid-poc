@@ -14,17 +14,23 @@ class App extends Component {
       gridState: false,
       city: '',
       guestId: '',
-      accCode: ''
+      accCode: '',
+      departureDate: '',
+      arrivalDate: '',
+      hotNumber: ''
     }
     this.changeGridState = this.changeGridState.bind(this);
   }
 
-  changeGridState(city, guestId, accCode) {
+  changeGridState(city, guestId, accCode, departureDate, arrivalDate, hotNumber) {
     this.setState({
       gridState: true,
       city,
       guestId,
-      accCode
+      accCode,
+      hotNumber,
+      arrivalDate,
+      departureDate
     })
   }
   render() {
@@ -44,7 +50,7 @@ class App extends Component {
           </ul>
         </header>
         <GridContext.Provider value={{
-          gridState: this.state.gridState, changeGridState: this.changeGridState, city: this.state.city, guestId: this.state.guestId, accCode: this.state.accCode
+          gridState: this.state.gridState, changeGridState: this.changeGridState, city: this.state.city, guestId: this.state.guestId, accCode: this.state.accCode, departureDate: this.state.departureDate, arrivalDate: this.state.arrivalDate, hotNumber: this.state.hotNumber
         }}>
           <Router>
             <Switch>
