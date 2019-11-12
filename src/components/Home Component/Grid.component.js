@@ -186,7 +186,8 @@ class Grid extends Component {
             method: 'PUT',
             headers: {
                 authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkR1bW15Iiwicm9sZSI6InBvYyIsImlhdCI6MTUxNjIzOTAyMn0.0pZkdaT9ACzIIq-8CWi6P1d-9PX4CDZ1kS69uAEd4bs',
-                'Access-Control-Allow-Origin': '*'
+                'Access-Control-Allow-Origin': '*',
+                'Content-type': 'application/json'
             },
             body: JSON.stringify(data)
         })
