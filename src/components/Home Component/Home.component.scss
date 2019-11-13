@@ -7,8 +7,13 @@
     }
   }
 }
+.form-group {
+  label {
+    margin: 0;
+  }
+}
 .default {
-  height: 370px;
+  height: 386px;
   transition: height 700ms ease-in-out;
   overflow: hidden;
   &.true {

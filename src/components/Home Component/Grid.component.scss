@@ -1,10 +1,23 @@
 .ag-theme-balham .ag-row-odd {
-  background-color: #f5f5f6;
+  background-color: #fff;
 }
 .highlight-id {
   color: blue;
   cursor: pointer;
   &:hover {
     background: rgba(0, 0, 255, 0.1);
+  }
+}
+.pagination {
+  margin-top: 15px;
+  .page-item {
+    margin-right: 10px;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  .page-item.active .page-link {
+    background: #ff9662;
+    border-color: #ff9662;
   }
 }

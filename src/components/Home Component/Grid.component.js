@@ -15,6 +15,7 @@ class Grid extends Component {
         this.state = {
             clicked: false,
             isMinimized: false,
+            pages: 0,
             columnDefs: [{
                 headerName: "Id", field: "guestId", sortable: true, filter: true,
                 width: 120, cellClass: 'highlight-id'
@@ -122,8 +123,9 @@ class Grid extends Component {
             url = this.createUrl();
             this.getData(url);
         }, 100);
-        document.getElementsByClassName('ag-center-cols-container')[0].setAttribute('id', 'parentColumn');
-        document.getElementsByClassName('ag-center-cols-container')[0].addEventListener('click', this.goToCases.bind(this), true);
+        document.getElementsByClassName('ag-body-viewport')[0].setAttribute('id', 'parentColumn');
+        document.getElementsByClassName('ag-center-cols-viewport')[0].setAttribute('id', 'horizontalScroll')
+        document.getElementsByClassName('ag-body-viewport')[0].addEventListener('click', this.goToCases.bind(this), true);
 
     }
 
@@ -164,7 +166,7 @@ class Grid extends Component {
             .then(res => res.json())
             .then(rowData => {
                 if (Array.isArray(rowData)) {
-                    this.setState({ rowData })
+                    this.setState({ rowData, pages: Math.ceil(rowData.length / 1000) })
                 } else {
                     this.setState({ rowData: [] })
                 }
@@ -195,6 +197,10 @@ class Grid extends Component {
             .then(data => console.log(data))
     }
 
+    handlePageNav = (page) => {
+        console.log(page)
+    }
+
     render() {
         return (
             <div className={`ag-theme-balham custom-grid ${this.state.isMinimized}`} >
@@ -206,8 +212,23 @@ class Grid extends Component {
                     frameworkComponents={this.state.frameworkComponents}
                     onGridReady={this.gridOnReady}
                     onCellValueChanged={this.handleChange}
-                    enableCellChangeFlash={true}>
+                >
                 </AgGridReact>
+                <div className="d-flex justify-content-end">
+                    <ul className="pagination">
+                        <li className="page-item">
+                            <a className="page-link">Previous</a>
+                        </li>
+                        {
+                            [...Array(this.state.pages)].map((e, i) => {
+                                return <li onClick={() => this.handlePageNav(i)} className={`page-item ${(this.state.pages === i+1) ? 'active' : ''}`} key={i}><a className="page-link">{i + 1}</a></li>
+                            })
+                        }
+                        <li className="page-item">
+                            <a className="page-link">Next</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         )
     }
