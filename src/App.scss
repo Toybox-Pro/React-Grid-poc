@@ -74,10 +74,10 @@ input.form-control {
 }
 
 .custom-grid {
-  height: 500px;
+  height: 450px;
   transition: height 700ms ease-in-out;
   margin-bottom: 30px;
-  font-family: 'Open Sans';
+  font-family: "Open Sans";
   &.true {
     height: 700px;
   }
@@ -104,40 +104,21 @@ select.flatpickr-monthDropdown-months {
   padding: 0;
 }
 
-//custom sscroll bar
-
-#parentColumn::-webkit-scrollbar, #horizontalScroll::-webkit-scrollbar {
-
-  width: 7.5px;
-
+//custom scroll bar
+.ag-root ::-webkit-scrollbar {
+  width: 10px;
   height: 7.5px;
-
+  background: transparent;
 }
 
- 
-
-#parentColumn::-webkit-scrollbar-track, #horizontalScroll::-webkit-scrollbar-track {
-
-  // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-
+.ag-root ::-webkit-scrollbar-button {
+  background: transparent;
 }
 
- 
-
-#parentColumn::-webkit-scrollbar-thumb, #horizontalScroll::-webkit-scrollbar-thumb {
-
-  background-color: darkgrey;
-
-  outline: 1px solid slategrey;
-
-  border-radius: 10px;
-
-  visibility: hidden;
-
+.ag-root ::-webkit-scrollbar-thumb {
+  background: grey;
+  border-radius: 5px;
 }
-
-#parentColumn:hover::-webkit-scrollbar-thumb, #horizontalScroll::-webkit-scrollbar-thumb {
-
-  visibility: visible;
-
+​ .ag-root ::-webkit-scrollbar-track-piece {
+  background: #ddd;
 }

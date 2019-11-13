@@ -126,7 +126,6 @@ class Grid extends Component {
             this.getData(url);
         }, 100);
         document.getElementsByClassName('ag-body-viewport')[0].setAttribute('id', 'parentColumn');
-        document.getElementsByClassName('ag-center-cols-viewport')[0].setAttribute('id', 'horizontalScroll')
         document.getElementsByClassName('ag-body-viewport')[0].addEventListener('click', this.goToCases.bind(this), true);
 
     }
@@ -221,21 +220,21 @@ class Grid extends Component {
                     onCellValueChanged={this.handleChange}
                 >
                 </AgGridReact>
-                <div className="d-flex justify-content-end">
+                <nav className="d-flex justify-content-end">
                     {(this.state.rowData) ? <ul className="pagination">
-                        <li className="page-item" onClick={() => this.handlePageNav(this.state.currentPage - 1)}>
-                            <a className="page-link">Previous</a>
+                        <li className={`page-item ${this.state.currentPage === 1 ? 'disabled' : ''}`} onClick={() => this.handlePageNav(this.state.currentPage - 1)}>
+                            <a className={`page-link ${this.state.currentPage === 1 ? 'disabled' : ''}`}>Previous</a>
                         </li>
                         {
                             [...Array(this.state.pages)].map((e, i) => {
                                 return <li onClick={() => this.handlePageNav(i + 1)} className={`page-item ${(this.state.currentPage === i + 1) ? 'active' : ''}`} key={i}><a className="page-link">{i + 1}</a></li>
                             })
                         }
-                        <li className="page-item" onClick={() => this.handlePageNav(this.state.currentPage + 1)}>
-                            <a className="page-link">Next</a>
+                        <li className={`page-item ${this.state.currentPage === this.state.pages ? 'disabled' : ''}`} onClick={() => this.handlePageNav(this.state.currentPage + 1)}>
+                            <a className={`page-link ${this.state.currentPage === this.state.pages ? 'disabled' : ''}`}>Next</a>
                         </li>
                     </ul> : ''}
-                </div>
+                </nav>
             </div>
         )
     }
