@@ -16,6 +16,8 @@ class Grid extends Component {
             clicked: false,
             isMinimized: false,
             pages: 0,
+            currentPage: 1,
+            pageSize: 500,
             columnDefs: [{
                 headerName: "Id", field: "guestId", sortable: true, filter: true,
                 width: 120, cellClass: 'highlight-id'
@@ -146,7 +148,6 @@ class Grid extends Component {
     handleChange = params => {
         if ((params.oldValue !== params.newValue) && params.oldValue) {
             //call the api here
-            console.log(params);
             this.updateData(params.data);
         }
     }
@@ -165,20 +166,20 @@ class Grid extends Component {
         })
             .then(res => res.json())
             .then(rowData => {
-                if (Array.isArray(rowData)) {
-                    this.setState({ rowData, pages: Math.ceil(rowData.length / 1000) })
+                if (Array.isArray(rowData.guests)) {
+                    this.setState({ rowData: rowData.guests, pages: Math.ceil(rowData.count / this.state.pageSize) })
                 } else {
                     this.setState({ rowData: [] })
                 }
             })
-            .catch(err => console.log(err));
+            .catch(err => this.setState({rowData: []}));
     }
     createUrl() {
         let url = '';
         if (!this.context.city && !this.context.guestId && !this.context.accCode && !this.context.departureDate && !this.context.arrivalDate && !this.context.hotNumber) {
-            url = 'http://ec2-54-204-237-108.compute-1.amazonaws.com:8080/dummy';
+            url = `http://ec2-54-204-237-108.compute-1.amazonaws.com:8080/dummy/Search/?pagenumber=${this.state.currentPage}&pagesize=${this.state.pageSize}`;
         } else {
-            url = `http://ec2-54-204-237-108.compute-1.amazonaws.com:8080/dummy/Search/?dummyId=${this.context.guestId}&cityState=${this.context.city}&Acccode=${this.context.accCode}&HotNumber=${this.context.hotNumber}&DepartDate=${moment(this.context.departureDate).format('MM/DD/YYYY')}&ArrivalDate=${moment(this.context.arrivalDate).format('MM/DD/YYYY')}`
+            url = `http://ec2-54-204-237-108.compute-1.amazonaws.com:8080/dummy/Search/?dummyId=${this.context.guestId}&cityState=${this.context.city}&Acccode=${this.context.accCode}&HotNumber=${this.context.hotNumber}&DepartDate=${moment(this.context.departureDate).format('MM/DD/YYYY')}&ArrivalDate=${moment(this.context.arrivalDate).format('MM/DD/YYYY')}&pagenumber=${this.state.currentPage}&pagesize=${this.state.pageSize}`
         }
         return url;
     }
@@ -198,7 +199,13 @@ class Grid extends Component {
     }
 
     handlePageNav = (page) => {
-        console.log(page)
+        this.setState({
+            currentPage: page
+        }, () => {
+            let url = this.createUrl();
+            this.getData(url);
+        })
+
     }
 
     render() {
@@ -215,19 +222,19 @@ class Grid extends Component {
                 >
                 </AgGridReact>
                 <div className="d-flex justify-content-end">
-                    <ul className="pagination">
-                        <li className="page-item">
+                    {(this.state.rowData) ? <ul className="pagination">
+                        <li className="page-item" onClick={() => this.handlePageNav(this.state.currentPage - 1)}>
                             <a className="page-link">Previous</a>
                         </li>
                         {
                             [...Array(this.state.pages)].map((e, i) => {
-                                return <li onClick={() => this.handlePageNav(i)} className={`page-item ${(this.state.pages === i+1) ? 'active' : ''}`} key={i}><a className="page-link">{i + 1}</a></li>
+                                return <li onClick={() => this.handlePageNav(i + 1)} className={`page-item ${(this.state.currentPage === i + 1) ? 'active' : ''}`} key={i}><a className="page-link">{i + 1}</a></li>
                             })
                         }
-                        <li className="page-item">
+                        <li className="page-item" onClick={() => this.handlePageNav(this.state.currentPage + 1)}>
                             <a className="page-link">Next</a>
                         </li>
-                    </ul>
+                    </ul> : ''}
                 </div>
             </div>
         )
