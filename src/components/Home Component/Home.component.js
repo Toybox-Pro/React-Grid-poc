@@ -54,7 +54,7 @@ export class Home extends Component {
                         <div className="col-11">
                             <div className={`card my-4 default ${this.state.minimize}`} style={{ border: 'none', boxShadow: '0 6px 12px rgba(0,0,0, 0.5)' }}>
                                 <div className={`card-title p-3 d-flex align-items-center justify-content-between`}>
-                                    <h4 className="ml-2">Search Reservations</h4>
+                                    <h4 className="ml-2 mb-0">Search Reservations</h4>
                                     <div className="d-inline-flex" onClick={() => this.handleMinimize()}>
                                         {
                                             (this.state.minimize) ? <img src={Maximise} alt="Maximise" style={{ width: '30px', height: '30px', cursor: 'pointer' }} /> : <img src={Minimise} alt="Minimise" style={{ width: '30px', height: '30px', cursor: 'pointer' }} />
