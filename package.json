@@ -6,6 +6,7 @@
     "ag-grid-community": "^21.2.2",
     "ag-grid-react": "^21.2.2",
     "browserslist": "^4.7.2",
+    "fetch-mw-oauth2": "^0.4.0",
     "flatpickr": "^4.6.3",
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.24.0",
